@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wang.WMSys.Mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.wang.WMSys.Pojo.Entity.User">
+            <id property="pkId" column="pk_id" jdbcType="INTEGER"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="isAccountNonExpired" column="is_account_non_expired" jdbcType="TINYINT"/>
+            <result property="isAccountNonLocked" column="is_account_non_locked" jdbcType="TINYINT"/>
+            <result property="isCredentialsNonExpired" column="is_credentials_non_expired" jdbcType="TINYINT"/>
+            <result property="isEnabled" column="is_enabled" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        pk_id,username,password,
+        is_account_non_expired,is_account_non_locked,is_credentials_non_expired,
+        is_enabled
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_user
+        where  pk_id = #{pkId,jdbcType=INTEGER} 
+    </select>
+    <select id="getUserByUsername" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from t_user
+        where username = #{username,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_user
+        where  pk_id = #{pkId,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="pk_id" keyProperty="pkId" parameterType="com.wang.WMSys.Pojo.Entity.User" useGeneratedKeys="true">
+        insert into t_user
+        ( pk_id,username,password
+        ,is_account_non_expired,is_account_non_locked,is_credentials_non_expired
+        ,is_enabled)
+        values (#{pkId,jdbcType=INTEGER},#{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR}
+        ,#{isAccountNonExpired,jdbcType=TINYINT},#{isAccountNonLocked,jdbcType=TINYINT},#{isCredentialsNonExpired,jdbcType=TINYINT}
+        ,#{isEnabled,jdbcType=TINYINT})
+    </insert>
+    <insert id="insertSelective" keyColumn="pk_id" keyProperty="pkId" parameterType="com.wang.WMSys.Pojo.Entity.User" useGeneratedKeys="true">
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="pkId != null">pk_id,</if>
+                <if test="username != null">username,</if>
+                <if test="password != null">password,</if>
+                <if test="isAccountNonExpired != null">is_account_non_expired,</if>
+                <if test="isAccountNonLocked != null">is_account_non_locked,</if>
+                <if test="isCredentialsNonExpired != null">is_credentials_non_expired,</if>
+                <if test="isEnabled != null">is_enabled,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="pkId != null">#{pkId,jdbcType=INTEGER},</if>
+                <if test="username != null">#{username,jdbcType=VARCHAR},</if>
+                <if test="password != null">#{password,jdbcType=VARCHAR},</if>
+                <if test="isAccountNonExpired != null">#{isAccountNonExpired,jdbcType=TINYINT},</if>
+                <if test="isAccountNonLocked != null">#{isAccountNonLocked,jdbcType=TINYINT},</if>
+                <if test="isCredentialsNonExpired != null">#{isCredentialsNonExpired,jdbcType=TINYINT},</if>
+                <if test="isEnabled != null">#{isEnabled,jdbcType=TINYINT},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wang.WMSys.Pojo.Entity.User">
+        update t_user
+        <set>
+                <if test="username != null">
+                    username = #{username,jdbcType=VARCHAR},
+                </if>
+                <if test="password != null">
+                    password = #{password,jdbcType=VARCHAR},
+                </if>
+                <if test="isAccountNonExpired != null">
+                    is_account_non_expired = #{isAccountNonExpired,jdbcType=TINYINT},
+                </if>
+                <if test="isAccountNonLocked != null">
+                    is_account_non_locked = #{isAccountNonLocked,jdbcType=TINYINT},
+                </if>
+                <if test="isCredentialsNonExpired != null">
+                    is_credentials_non_expired = #{isCredentialsNonExpired,jdbcType=TINYINT},
+                </if>
+                <if test="isEnabled != null">
+                    is_enabled = #{isEnabled,jdbcType=TINYINT},
+                </if>
+        </set>
+        where   pk_id = #{pkId,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.wang.WMSys.Pojo.Entity.User">
+        update t_user
+        set 
+            username =  #{username,jdbcType=VARCHAR},
+            password =  #{password,jdbcType=VARCHAR},
+            is_account_non_expired =  #{isAccountNonExpired,jdbcType=TINYINT},
+            is_account_non_locked =  #{isAccountNonLocked,jdbcType=TINYINT},
+            is_credentials_non_expired =  #{isCredentialsNonExpired,jdbcType=TINYINT},
+            is_enabled =  #{isEnabled,jdbcType=TINYINT}
+        where   pk_id = #{pkId,jdbcType=INTEGER} 
+    </update>
+</mapper>
